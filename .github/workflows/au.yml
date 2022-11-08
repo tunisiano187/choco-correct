@@ -45,7 +45,7 @@ jobs:
         run: |
           setup/requisite.ps1
         env:
-          au_version: master
+          github_api_key: ${{ secrets.GITHUB_TOKEN }}
       - name: Check update for packages
         run: |
           $ErrorActionPreference = 'Continue'
