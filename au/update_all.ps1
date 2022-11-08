@@ -5,14 +5,14 @@ param($Name = $null)
 if (Test-Path $PSScriptRoot/update_vars.ps1) { . $PSScriptRoot/update_vars.ps1 }
 
 $Options = [ordered]@{
-    Timeout    = 100                                        #Connection timeout in seconds
-    Threads    = 5                                          #Number of background jobs to use
-    Push       = $Env:au_Push -eq 'true'                    #Push to chocolatey
-    PluginPath = ''                                         #Path to user plugins
+    Timeout     = 100                                       #Connection timeout in seconds
+    Threads     = 5                                         #Number of background jobs to use
+    Push        = $Env:au_Push -eq 'true'                   #Push to chocolatey
+    PluginPath  = ''                                        #Path to user plugins
 
-    RepeatOn      = @(                                      #Error message parts on which to repeat package updater
+    RepeatOn    = @(                                        #Error message parts on which to repeat package updater
       'Could not create SSL/TLS secure channel'             # https://github.com/chocolatey/chocolatey-coreteampackages/issues/718
-      'Could not establish trust relationship'              # -||-
+      'Could not establish trust relationship'
       'Unable to connect'
       'The remote name could not be resolved'
       'Choco pack failed with exit code 1'                  # https://github.com/chocolatey/chocolatey-coreteampackages/issues/721
@@ -22,38 +22,34 @@ $Options = [ordered]@{
       'remote session failed with an unexpected state'
       'The connection was closed unexpectedly.'
     )
-    RepeatSleep   = 30                                    #How much to sleep between repeats in seconds, by default 0
-    RepeatCount   = 2                                      #How many times to repeat on errors, by default 1
+    RepeatSleep = 30                                        #How much to sleep between repeats in seconds, by default 0
+    RepeatCount = 2                                         #How many times to repeat on errors, by default 1
 
     History = @{
-        Lines = 120                                         #Number of lines to show
+        Lines   = 120                                       #Number of lines to show
         Github_UserRepo = $Env:github_user_repo             #User repo to be link to commits
-        Path = "$PSScriptRoot\Update-History.md"            #Path where to save history
+        Path    = "$PSScriptRoot\Update-History.md"         #Path where to save history
     }
 
     Report = @{
-        Type = 'markdown'                                   #Report type: markdown or text
-        Path = "$PSScriptRoot\Update-AUPacakges.md"         #Path where to save the report
-        Params= @{                                          #Report parameters:
+        Type    = 'markdown'                                #Report type: markdown or text
+        Path    = "$PSScriptRoot\Update-AUPacakges.md"      #Path where to save the report
+        Params  = @{                                        #Report parameters:
             Github_UserRepo = $Env:github_user_repo         #  Markdown: shows user info in upper right corner
-            NoAppVeyor  = $false                            #  Markdown: do not show AppVeyor build shield
-            UserMessage = "[Ignored](#ignored) | [History](#update-history) | [Force Test](https://gist.github.com/$Env:gist_id_test) | [Releases](https://github.com/$Env:github_user_repo/tags)"       #  Markdown, Text: Custom user message to show
+            NoAppVeyor      = $false                        #  Markdown: do not show AppVeyor build shield
+            UserMessage     = "[Ignored](#ignored) | [History](#update-history) | [Force Test](https://gist.github.com/$Env:gist_id_test) | [Releases](https://github.com/$Env:github_user_repo/tags)"       #  Markdown, Text: Custom user message to show
         }
     }
 
     Gist = @{
-        Id          = $Env:gist_id                          #Your gist id or leave empty for anonymous
-        ApiKey      = $Env:github_api_key                   #Your github api key
-        Path        = "$PSScriptRoot\Update-AUPackages.md", "$PSScriptRoot\Update-History.md"  #List of files to add to gist
+        id      = $Env:gist_id                              #Your gist id or leave empty for anonymous
+        ApiKey  = $Env:github_api_key                       #Your github api key (default to Github given one)
+        Path    = "$PSScriptRoot\Update-AUPackages.md", "$PSScriptRoot\Update-History.md"  #List of files to add to gist
     }
 
     Git = @{
-        User = 'tunisiano187'
-        Password = $Env:github_api_key
-    }
-
-    Gitter = @{
-        WebHookUrl = "https://webhooks.gitter.im/e/b70be555bdfec2aefc67"
+        User    = $Env:github_user_repo.split("/")[0]       #You user, default to the repository first part (Owner)
+        Password = $Env:github_api_key                      #Github API, default to Github given one
     }
 
     Issues = @{

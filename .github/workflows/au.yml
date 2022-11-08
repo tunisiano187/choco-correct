@@ -36,8 +36,8 @@ jobs:
           git config --global core.safecrlf false
       - name: Install AU
         run: |
-          git clone -q https://github.com/tunisiano187/chocolatey-au.git $Env:TEMP/au
-          cup -y Wormies-AU-Helpers
+          git clone -q https://github.com/chocolatey-community/chocolatey-au.git $Env:TEMP/au
+          choco install -y Wormies-AU-Helpers
           . "$Env:TEMP/au/scripts/Install-AU.ps1" $Env:au_version
         env:
           au_version: master
@@ -68,7 +68,7 @@ jobs:
           # Chocolatey API key - to push updated packages
           api_key: ${{ secrets.CHOCO_API_KEY }}
 
-          # Slack webhook URL
+          # Slack webhook URL 
           #slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
 
           # GitHub Actions build url which points to this build
