@@ -42,9 +42,9 @@ $Options = [ordered]@{
     }
 
     Gist = @{
-        Id          = "" #$Env:gist_id                          #Your gist id or leave empty for anonymous
+        Id          = $Env:gist_id                          #Your gist id or leave empty for anonymous
         ApiKey      = $Env:github_api_key                   #Your github api key
-        Path        = "$PSScriptRoot\Update-AUPacakges.md", "$PSScriptRoot\Update-History.md", "$PSScriptRoot/../ToCorrect.md"  #List of files to add to gist
+        Path        = "$PSScriptRoot\Update-AUPackages.md", "$PSScriptRoot\Update-History.md"  #List of files to add to gist
     }
 
     Git = @{
@@ -56,16 +56,9 @@ $Options = [ordered]@{
         WebHookUrl = "https://webhooks.gitter.im/e/b70be555bdfec2aefc67"
     }
 
-    #GitLab = @{
-    #    User			= 'tunisiano187'					#Git username, leave empty if github api key is used
-    #    API_Key			= $env:Gitlab_api_key					#Password if username is not empty, otherwise api key
-	#	PushURL			= $env:Gitlab_PushURL
-	#	Force			= $True
-	#	commitStrategy	= 'atomictag'
-    #}
     Issues = @{
         ApiToken    = $Env:github_api_key                   #Your github api key
-        BaseBranch  = "master"
+        BaseBranch  = "main"
     }
 
     RunInfo = @{
